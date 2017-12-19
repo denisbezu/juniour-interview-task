@@ -119,7 +119,7 @@ class User implements \Serializable, UserInterface
 
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
+        //  TODO: Implement eraseCredentials() method.
     }
 
     /**

@@ -23,7 +23,7 @@ absence:
   defaults: { _controller: WorkerBundle:Worker:absence }
 
 positionlist:
-  path: /poistions
+  path: /positions
   defaults: { _controller: WorkerBundle:Worker:positionsList}
 
 deleteabs:
