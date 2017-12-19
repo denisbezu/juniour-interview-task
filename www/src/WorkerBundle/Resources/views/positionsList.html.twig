@@ -1,0 +1,51 @@
+{% extends '::base.html.twig' %}
+{% block title %}Список должностей{% endblock %}
+{% block body %}
+
+    {% if alert != null %}
+        <div class="alert alert-success">
+            {{ alert }}
+        </div>
+    {% elseif app.request.query.get("alert") != null %}
+        <div class="alert alert-success">
+            {{ app.request.query.get("alert")  }}
+        </div>
+    {% endif  %}
+    <div>
+        <h2>Должности</h2>
+        <form class="form-inline" method="post" enctype="multipart/form-data" }}>
+            <div class="form-group">
+                {{ form_label(form.positionname ) }}
+                {{ form_widget(form.positionname, {'attr' : {'style' : 'display: inline-block;'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_widget(form.submit) }}
+            </div>
+        </form>
+        <table class="table table-hover table-responsive">
+            <thead>
+            <tr>
+                <th width="300">№</th>
+                <th>Должность</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if positions|length == 0 %}
+                <tr>
+                    <td colspan="2">Нет должностей</td>
+                </tr>
+            {% else %}
+                {% set i = 1 %}
+                {% for pos in positions %}
+                    <tr>
+                        <td>{{ i }} </td>
+                        {% set i = i + 1 %}
+                        <td>{{ pos.positionname }}</td>
+
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

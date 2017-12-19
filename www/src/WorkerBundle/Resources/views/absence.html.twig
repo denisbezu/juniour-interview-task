@@ -1,0 +1,61 @@
+{% extends '::base.html.twig' %}
+{% block title %}Пропуски сотрудника {{ worker.name }}{% endblock %}
+{% block body %}
+
+    {% if alert != null %}
+        <div class="alert alert-success">
+            {{ alert }}
+        </div>
+    {% elseif app.request.query.get("alert") != null %}
+        <div class="alert alert-success">
+            {{ app.request.query.get("alert")  }}
+        </div>
+    {% endif  %}
+    <div>
+        <h2>Пропуски сотрудника <a href="{{ path('details', {'id': worker.id}) }}">{{ worker.name }}</a></h2>
+        <form class="form-inline" method="post" enctype="multipart/form-data" }}>
+            <div class="form-group">
+                {{ form_label(form.startDate ) }}
+                {{ form_widget(form.startDate, {'attr' : {'style' : 'display: inline-block;'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.endDate) }}
+                {{ form_widget(form.endDate, {'attr' : {'style' : 'display: inline-block;'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_widget(form.submit) }}
+            </div>
+        </form>
+        <table class="table table-hover table-responsive">
+            <thead>
+            <tr>
+                <th width="300">№</th>
+                <th>Дата пропуска</th>
+                <th>Опции</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if worker.absences.count == 0 %}
+                <tr>
+                    <td colspan="2">Нет пропусков</td>
+                </tr>
+            {% else %}
+                {% set i = 1 %}
+                {% for abs in absences %}
+                    <tr>
+                        <td>{{ i }} </td>
+                        {% set i = i + 1 %}
+                        <td>{{ abs.absenceDate|date('d-m-Y') }}</td>
+                        <td><a href="{{ path('deleteabs', {'idWorker': worker.id, 'idAbsence' : abs.id}) }}" class="btn btn-danger">Удалить</a></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(absences) }}
+        </div>
+    </div>
+{% endblock %}
